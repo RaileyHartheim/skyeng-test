@@ -1,0 +1,8 @@
+celery[redis]
+Django==4.1.10
+django-celery-beat==2.5.0
+django-celery-results==2.5.1
+flake8==6.1.0
+gunicorn==20.1.0
+psycopg2-binary==2.9.7
+python-dotenv==0.20.0
