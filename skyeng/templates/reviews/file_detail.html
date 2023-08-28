@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Файл {{ uploaded_file.filename }} {% endblock %}
+
+{% block content%}
+  <br>
+  <div class="row">
+    <aside class="col-12 col-md-12">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          Дата публикации: {{ uploaded_file.upload_time|date:"d E Y" }}
+        </li>
+      </ul>
+    </aside>
+    <article class="col-12 col-md-12">
+      <p>
+       {{ uploaded_file.display_file_text|safe }}
+      </p>
+      {% if user == uploaded_file.owner %}
+        <a class="btn btn-primary" href="{% url 'reviews:edit_file' file_id=uploaded_file.pk %}">
+          редактировать файл
+        </a>
+        <a class="btn btn-primary" href="{% url 'reviews:delete_file' file_id=uploaded_file.pk %}">
+            удалить файл
+        </a>
+      
+      <br>
+      <br>
+
+      <div class="media mb-4">
+        <div class="media-body">
+          {% if review %}
+            <p>
+              Отчет о проверке
+            </p>
+            <p>
+              Статус: {{  review.get_status_display }}
+            </p>
+            <p>
+              {{ review.review_text|linebreaksbr }}
+            </p>
+          {% else %}
+            <p>
+              Отчет о проверке еще не сформирован
+            </p>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+    </article>
+  </div>
+{% endblock %}

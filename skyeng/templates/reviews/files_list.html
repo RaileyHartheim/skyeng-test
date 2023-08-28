@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Список загруженных файлов{% endblock %}
+
+{% block content%}
+  <div class="container py-5">
+    <h1>Список всех загруженных файлов пользователя</h1>
+    <h3>Всего файлов: {{ files_count }}</h3>
+    <br>
+    
+    {% for file in page_obj %}
+        <article>
+          <ul>
+            <li>
+              <h4>Дата загрузки: {{  file.upload_time|date:"d E Y" }}</h4>
+            </li>
+          </ul>
+          <p>
+            {{ file.filename }}
+          </p>
+          <p>
+            Статус: {{ file.get_status_display }}
+          </p>
+          <a href="{% url 'reviews:file_detail' file_id=file.pk %}">
+            подробная информация
+          </a>
+        </article>
+        {% if not forloop.last %}<hr>{% endif %}
+      {% endfor %}
+
+    {% if page_obj.has_other_pages %}
+      {% include 'posts/includes/paginator.html' %}
+    {% endif %}
+
+  </div>
+{% endblock %}
