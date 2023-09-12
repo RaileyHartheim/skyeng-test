@@ -66,12 +66,12 @@ def delete_file(request, file_id):
     file = get_object_or_404(UploadedFile, pk=file_id)
     if file.owner != request.user:
         return redirect('reviews:index')
-    if os.path.exists(f'media/uploaded_files/{file.filename}'):
-        os.remove(f'media/uploaded_files/{file.filename}')
     file.status = 'deleted'
     if Review.objects.filter(file=file_id).exists:
-        review = Review.objects.get(file=file_id)
-        review.status = 'file-deleted'
+        review = Review.objects.filter(file=file_id).first()
+        if review:
+            review.status = 'file-deleted'
+            review.delete()
     file.save()
     return redirect('reviews:files_list')
 
